@@ -2,7 +2,7 @@ version: "3"
 services:
   #PHP App
   app:
-    image: php:fpm-alpine
+    image: lazarodu/php-image:latest
     container_name: app
     restart: unless-stopped
     tty: true
@@ -12,6 +12,25 @@ services:
     working_dir: /var/www/html
     volumes:
       - /Users/lazaroeduardodasilva/Documents/cefet/2021/web2/www:/var/www/html
+      - /Users/lazaroeduardodasilva/Documents/cefet/2021/web2/config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    networks:
+      - cefetnet
+
+  #PHP Laravel
+  laravel:
+    image: lazarodu/php-laravel:1.0.1
+    container_name: laravel
+    restart: unless-stopped
+    tty: true
+    command: php artisan serve --host=0.0.0.0
+    ports:
+      - "8001:8000"
+    environment:
+      SERVICE_NAME: laravel
+      SERVICE_TAGS: dev
+    working_dir: /var/www/html
+    volumes:
+      - /Users/lazaroeduardodasilva/Documents/cefet/2021/web2/projeto03:/var/www/html
       - /Users/lazaroeduardodasilva/Documents/cefet/2021/web2/config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     networks:
       - cefetnet
